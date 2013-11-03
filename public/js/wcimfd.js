@@ -391,107 +391,6 @@ process.binding = function (name) {
 
 });
 
-require.define("wcimfd/ingredient.jade",function(require,module,exports,__dirname,__filename,process,global){module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
-attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
-var buf = [];
-with (locals || {}) {
-var interp;
-buf.push('<div class="ingredient"><h5>');
-var __val__ = name
-buf.push(escape(null == __val__ ? "" : __val__));
-buf.push('</h5></div>');
-}
-return buf.join("");
-}
-});
-
-require.define("wcimfd/popover.jade",function(require,module,exports,__dirname,__filename,process,global){module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
-attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
-var buf = [];
-with (locals || {}) {
-var interp;
-buf.push('<ul>');
-// iterate ingredients
-;(function(){
-  if ('number' == typeof ingredients.length) {
-
-    for (var $index = 0, $$l = ingredients.length; $index < $$l; $index++) {
-      var ingredient = ingredients[$index];
-
-buf.push('<li>');
-if ((listedIngredients.indexOf(ingredient.name) != -1))
-{
-buf.push('<img src="img/green-checkmark.png" class="check"/>');
-}
-else
-{
-buf.push('<i class="icon-asterisk"></i>');
-}
-buf.push('&nbsp;&nbsp;');
-var __val__ = ingredient.description
-buf.push(escape(null == __val__ ? "" : __val__));
-buf.push('</li>');
-    }
-
-  } else {
-    var $$l = 0;
-    for (var $index in ingredients) {
-      $$l++;      var ingredient = ingredients[$index];
-
-buf.push('<li>');
-if ((listedIngredients.indexOf(ingredient.name) != -1))
-{
-buf.push('<img src="img/green-checkmark.png" class="check"/>');
-}
-else
-{
-buf.push('<i class="icon-asterisk"></i>');
-}
-buf.push('&nbsp;&nbsp;');
-var __val__ = ingredient.description
-buf.push(escape(null == __val__ ? "" : __val__));
-buf.push('</li>');
-    }
-
-  }
-}).call(this);
-
-buf.push('</ul>');
-}
-return buf.join("");
-}
-});
-
-require.define("wcimfd/search-result.jade",function(require,module,exports,__dirname,__filename,process,global){module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
-attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
-var buf = [];
-with (locals || {}) {
-var interp;
-buf.push('<div class="result"><a');
-buf.push(attrs({ 'href':("/wcimfd/details/" + _id), 'target':("_BLANK"), "class": ("" + (_id) + "") }, {"class":true,"href":true,"target":true}));
-buf.push('><div class="row"><div class="col-md-4"><h4 class="name">');
-var __val__ = name
-buf.push(escape(null == __val__ ? "" : __val__));
-buf.push('</h4><div class="description">');
-var __val__ = description
-buf.push(escape(null == __val__ ? "" : __val__));
-buf.push('</div></div><div class="col-md-2">');
-if ( image_url)
-{
-buf.push('<img');
-buf.push(attrs({ 'src':(image_url), "class": ('food-img') }, {"src":true}));
-buf.push('/>');
-}
-else
-{
-buf.push('<img src="/img/default-food.gif" class="food-img"/>');
-}
-buf.push('</div></div></a></div><script>var popover = require(\'/client/wcimfd/popover\');\npopover(\'' + escape((interp = _id) == null ? '' : interp) + '\',\'' + escape((interp = name) == null ? '' : interp) + '\', ' + ((interp = JSON.stringify(ingredients)) == null ? '' : interp) + ');\n</script>');
-}
-return buf.join("");
-}
-});
-
 require.define("/node_modules/jquery-browserify/package.json",function(require,module,exports,__dirname,__filename,process,global){module.exports = {"main":"./lib/jquery.js","browserify":{"dependencies":"","main":"lib/jquery.js"}}
 });
 
@@ -9830,65 +9729,6 @@ return jQuery;
 
 });
 
-require.define("/client/wcimfd/typeahead.js",function(require,module,exports,__dirname,__filename,process,global){"use strict";
-
-var events       = require('events')
-  , render       = require('./render')
-  , bill         = require('./bootstrap.js')
-  , EventEmitter = events.EventEmitter
-  , ingredients  = new EventEmitter()
-  ;
-
-ingredients.ingredients = {};
-ingredients.used = {};
-
-$("input#search").focus();
-
-$("input#search").typeahead({
-  source: searchIngredient,
-  items: 20,
-  minLength: 1,
-  matcher: function() {
-    return true;
-  },
-  highlighter: function(item) {
-    return item;
-  },
-  sorter: function(items) {
-    return items;
-  },
-  updater: function(item) {
-    var html = render('wcimfd/ingredient', {
-      name: item
-    });
-    $("#ingredient-list").append(html);
-    ingredients.used[item] = ingredients.ingredients[item]
-    ingredients.emit('new');
-    return '';
-  }
-});
-
-function searchIngredient(query, cb) {
-  $.ajax({
-    url: '/wcimfd/search/ingredient',
-    data: { q: query },
-    success: onSuccess
-  });
-
-  function onSuccess(data) {
-    var names = data.results.map(function(v) {
-      ingredients.ingredients[v.name] = v;
-      return v.name;
-    });
-    cb(names);
-  }
-
-}
-
-module.exports = ingredients;
-
-});
-
 require.define("events",function(require,module,exports,__dirname,__filename,process,global){if (!process.EventEmitter) process.EventEmitter = function () {};
 
 var EventEmitter = exports.EventEmitter = process.EventEmitter;
@@ -10067,32 +9907,6 @@ EventEmitter.prototype.listeners = function(type) {
   }
   return this._events[type];
 };
-
-});
-
-require.define("/client/wcimfd/render.js",function(require,module,exports,__dirname,__filename,process,global){"use strict";
-
-var browserijade = require('browserijade')
-  , $            = require('jquery')
-  ;
-
-$.fn.render = function(view, locals) {
-  return this.each(function() {
-    var _locals = locals;
-    if (typeof locals === 'function') {
-      _locals = locals.call(this);
-    }
-    var html = render(view, _locals);
-    $(this).html(html);
-  });
-};
-
-function render(view, locals) {
-  var html = browserijade(view, locals);
-  return html;
-}
-
-module.exports = render;
 
 });
 
@@ -10301,92 +10115,6 @@ exports.rethrow = function rethrow(err, filename, lineno){
 });
 
 require.define("fs",function(require,module,exports,__dirname,__filename,process,global){// nothing to see here... no file methods for the browser
-
-});
-
-require.define("/client/wcimfd/search.js",function(require,module,exports,__dirname,__filename,process,global){"use strict";
-
-var $             = require('jquery-browserify')
-  , render        = require('./render')
-  , ingredients   = require('./typeahead')
-  ;
-
-ingredients.on('new', function() {
-  var recipesArr = []
-    , recipes = {};
-  for (var i in ingredients.used) {
-    recipesArr = recipesArr.concat(ingredients.used[i].recipes);
-  }
-  recipesArr.sort();
-  for (var i = 0; i < recipesArr.length; ++i) {
-    var id = recipesArr[i];
-    if (recipes[id]) {
-      recipes[id] = recipes[id] + 1;
-    } else {
-      recipes[id] = 1;
-    }
-  }
-  var ordered = [];
-  for (var id in recipes) {
-    ordered.push({
-      id: id,
-      count: recipes[id]
-    });
-  }
-  ordered.sort(function(a, b) {
-    return b.count - a.count;
-  });
-  var topRecipes = ordered.slice(0, 20);
-  loadRecipes(topRecipes);
-});
-
-function loadRecipes(recipes) {
-  var ids = recipes.map(function(v) {
-    return v.id;
-  }).join(',');
-
-  $.ajax({
-    url: '/wcimfd/recipes/get',
-    data: { ids: ids },
-    success: function(data) {
-      $('#search-results').html('');
-      for (var i = 0; i < data.length; ++i) {
-        data[i].image_url = data[i].image_url || null;
-        var html = render('wcimfd/search-result', data[i]);
-        $('#search-results').append(html);
-      }
-    }
-  });
-}
-
-});
-
-require.define("/client/wcimfd/popover.js",function(require,module,exports,__dirname,__filename,process,global){function popover(id, name, ingredients) {
-  var render = require('./render');
-  var listedIngredientsObj = require('./typeahead');
-  var listedIngredients = [];
-  var $ = this.$;
-  var _id = "." + id;
-  for(key in listedIngredientsObj.used) {
-    listedIngredients.push(key);
-  }
-  var htmlIngredients = render('wcimfd/popover', {
-    listedIngredients: listedIngredients,
-    ingredients: ingredients
-  })
-
-  name = '<h4>' + name + '</h4>';
-
-  $(_id).popover({
-    html: true,
-    placement: 'left',
-    trigger: 'hover',
-    title: name,
-    content: htmlIngredients
-  });
-}
-
-module.exports = popover;
 
 });
 
@@ -12415,6 +12143,278 @@ require.define("/client/wcimfd/bootstrap.js",function(require,module,exports,__d
 
 
 }(window.jQuery);
+});
+
+require.define("/client/wcimfd/popover.js",function(require,module,exports,__dirname,__filename,process,global){function popover(id, name, ingredients) {
+  var render = require('./render');
+  var listedIngredientsObj = require('./typeahead');
+  var listedIngredients = [];
+  var $ = this.$;
+  var _id = "." + id;
+  for(key in listedIngredientsObj.used) {
+    listedIngredients.push(key);
+  }
+  var htmlIngredients = render('wcimfd/popover', {
+    listedIngredients: listedIngredients,
+    ingredients: ingredients
+  })
+
+  name = '<h4>' + name + '</h4>';
+
+  $(_id).popover({
+    html: true,
+    placement: 'left',
+    trigger: 'hover',
+    title: name,
+    content: htmlIngredients
+  });
+}
+
+module.exports = popover;
+
+});
+
+require.define("/client/wcimfd/render.js",function(require,module,exports,__dirname,__filename,process,global){"use strict";
+
+var browserijade = require('browserijade')
+  , $            = require('jquery')
+  ;
+
+$.fn.render = function(view, locals) {
+  return this.each(function() {
+    var _locals = locals;
+    if (typeof locals === 'function') {
+      _locals = locals.call(this);
+    }
+    var html = render(view, _locals);
+    $(this).html(html);
+  });
+};
+
+function render(view, locals) {
+  var html = browserijade(view, locals);
+  return html;
+}
+
+module.exports = render;
+
+});
+
+require.define("/client/wcimfd/search.js",function(require,module,exports,__dirname,__filename,process,global){"use strict";
+
+var $             = require('jquery-browserify')
+  , render        = require('./render')
+  , ingredients   = require('./typeahead')
+  ;
+
+ingredients.on('new', function() {
+  var recipesArr = []
+    , recipes = {};
+  for (var i in ingredients.used) {
+    recipesArr = recipesArr.concat(ingredients.used[i].recipes);
+  }
+  recipesArr.sort();
+  for (var i = 0; i < recipesArr.length; ++i) {
+    var id = recipesArr[i];
+    if (recipes[id]) {
+      recipes[id] = recipes[id] + 1;
+    } else {
+      recipes[id] = 1;
+    }
+  }
+  var ordered = [];
+  for (var id in recipes) {
+    ordered.push({
+      id: id,
+      count: recipes[id]
+    });
+  }
+  ordered.sort(function(a, b) {
+    return b.count - a.count;
+  });
+  var topRecipes = ordered.slice(0, 20);
+  loadRecipes(topRecipes);
+});
+
+function loadRecipes(recipes) {
+  var ids = recipes.map(function(v) {
+    return v.id;
+  }).join(',');
+
+  $.ajax({
+    url: '/wcimfd/recipes/get',
+    data: { ids: ids },
+    success: function(data) {
+      $('#search-results').html('');
+      for (var i = 0; i < data.length; ++i) {
+        data[i].image_url = data[i].image_url || null;
+        var html = render('wcimfd/search-result', data[i]);
+        $('#search-results').append(html);
+      }
+    }
+  });
+}
+
+});
+
+require.define("/client/wcimfd/typeahead.js",function(require,module,exports,__dirname,__filename,process,global){"use strict";
+
+var events       = require('events')
+  , render       = require('./render')
+  , bill         = require('./bootstrap.js')
+  , EventEmitter = events.EventEmitter
+  , ingredients  = new EventEmitter()
+  ;
+
+ingredients.ingredients = {};
+ingredients.used = {};
+
+$("input#search").focus();
+
+$("input#search").typeahead({
+  source: searchIngredient,
+  items: 20,
+  minLength: 1,
+  matcher: function() {
+    return true;
+  },
+  highlighter: function(item) {
+    return item;
+  },
+  sorter: function(items) {
+    return items;
+  },
+  updater: function(item) {
+    var html = render('wcimfd/ingredient', {
+      name: item
+    });
+    $("#ingredient-list").append(html);
+    ingredients.used[item] = ingredients.ingredients[item]
+    ingredients.emit('new');
+    return '';
+  }
+});
+
+function searchIngredient(query, cb) {
+  $.ajax({
+    url: '/wcimfd/search/ingredient',
+    data: { q: query },
+    success: onSuccess
+  });
+
+  function onSuccess(data) {
+    var names = data.results.map(function(v) {
+      ingredients.ingredients[v.name] = v;
+      return v.name;
+    });
+    cb(names);
+  }
+
+}
+
+module.exports = ingredients;
+
+});
+
+require.define("wcimfd/ingredient.jade",function(require,module,exports,__dirname,__filename,process,global){module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+var buf = [];
+with (locals || {}) {
+var interp;
+buf.push('<div class="ingredient"><h5>');
+var __val__ = name
+buf.push(escape(null == __val__ ? "" : __val__));
+buf.push('</h5></div>');
+}
+return buf.join("");
+}
+});
+
+require.define("wcimfd/popover.jade",function(require,module,exports,__dirname,__filename,process,global){module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+var buf = [];
+with (locals || {}) {
+var interp;
+buf.push('<ul>');
+// iterate ingredients
+;(function(){
+  if ('number' == typeof ingredients.length) {
+
+    for (var $index = 0, $$l = ingredients.length; $index < $$l; $index++) {
+      var ingredient = ingredients[$index];
+
+buf.push('<li>');
+if ((listedIngredients.indexOf(ingredient.name) != -1))
+{
+buf.push('<img src="img/green-checkmark.png" class="check"/>');
+}
+else
+{
+buf.push('<i class="icon-asterisk"></i>');
+}
+buf.push('&nbsp;&nbsp;');
+var __val__ = ingredient.description
+buf.push(escape(null == __val__ ? "" : __val__));
+buf.push('</li>');
+    }
+
+  } else {
+    var $$l = 0;
+    for (var $index in ingredients) {
+      $$l++;      var ingredient = ingredients[$index];
+
+buf.push('<li>');
+if ((listedIngredients.indexOf(ingredient.name) != -1))
+{
+buf.push('<img src="img/green-checkmark.png" class="check"/>');
+}
+else
+{
+buf.push('<i class="icon-asterisk"></i>');
+}
+buf.push('&nbsp;&nbsp;');
+var __val__ = ingredient.description
+buf.push(escape(null == __val__ ? "" : __val__));
+buf.push('</li>');
+    }
+
+  }
+}).call(this);
+
+buf.push('</ul>');
+}
+return buf.join("");
+}
+});
+
+require.define("wcimfd/search-result.jade",function(require,module,exports,__dirname,__filename,process,global){module.exports = function anonymous(locals, attrs, escape, rethrow, merge) {
+attrs = attrs || jade.attrs; escape = escape || jade.escape; rethrow = rethrow || jade.rethrow; merge = merge || jade.merge;
+var buf = [];
+with (locals || {}) {
+var interp;
+buf.push('<div class="result"><a');
+buf.push(attrs({ 'href':("/wcimfd/details/" + _id), 'target':("_BLANK"), "class": ("" + (_id) + "") }, {"class":true,"href":true,"target":true}));
+buf.push('><div class="row"><div class="col-md-4"><h4 class="name">');
+var __val__ = name
+buf.push(escape(null == __val__ ? "" : __val__));
+buf.push('</h4><div class="description">');
+var __val__ = description
+buf.push(escape(null == __val__ ? "" : __val__));
+buf.push('</div></div><div class="col-md-2">');
+if ( image_url)
+{
+buf.push('<img');
+buf.push(attrs({ 'src':(image_url), "class": ('food-img') }, {"src":true}));
+buf.push('/>');
+}
+else
+{
+buf.push('<img src="/img/default-food.gif" class="food-img"/>');
+}
+buf.push('</div></div></a></div><script>var popover = require(\'/client/wcimfd/popover\');\npopover(\'' + escape((interp = _id) == null ? '' : interp) + '\',\'' + escape((interp = name) == null ? '' : interp) + '\', ' + ((interp = JSON.stringify(ingredients)) == null ? '' : interp) + ');\n</script>');
+}
+return buf.join("");
+}
 });
 
 require.alias("jquery-browserify", "/node_modules/jquery");
