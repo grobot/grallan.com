@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  .container.wcimfd-container
+    .row
+      .col-md-12(style="text-align:center")
+        h1 What Can I Make For Dinner With The
+        h1 Ingredients That I Have In My House
+    .row.recipe
+      .col-md-6(style="text-align:center")
+        h2=recipe.name
+        h4=recipe.description
+        .row
+          .col-md-3
+            - if(recipe.prep_time_min)
+                h3 Prep Time: #{recipe.prep_time_min} min.
+          .col-md-3
+            - if(recipe.cook_time_min)
+                h3 Cook Time: #{recipe.cook_time_min} min.
+        - if(recipe.number_of_servings)
+            h3 Servings: #{recipe.number_of_servings}
+      .col-md-6.image_url(style="text-align:center")
+        - if(recipe.image_url)
+            img(src=recipe.image_url)
+        - else
+            img(src='/img/default-food.gif')
+    .row.recipe
+      .col-md-6.ingredients
+        ul
+          each ingredient in recipe.ingredients
+            li
+              i.icon-asterisk
+              | &nbsp;&nbsp;
+              = ingredient.description
+      .col-md-6.instructions
+        ol
+          each instruction in recipe.instructions
+            li=instruction.instruction
+

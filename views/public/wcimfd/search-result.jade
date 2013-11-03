@@ -1,0 +1,16 @@
+.result
+  a(class="#{_id}", href="/wcimfd/details/" + _id, target="_BLANK")
+    .row
+      .col-md-4
+        h4.name= name
+        .description= description
+      .col-md-2
+        if image_url
+          img.food-img(src=image_url)
+        else
+          img.food-img(src="/img/default-food.gif")
+
+script
+  var popover = require('/client/wcimfd/popover');
+  popover('#{_id}','#{name}', !{JSON.stringify(ingredients)});
+

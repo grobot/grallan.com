@@ -6,6 +6,12 @@
     "express": "~3.4.3",
     "poet": "~1.0.0-rc3",
     "jade": "~0.35.0",
-    "less": "~1.5.0"
+    "less": "~1.5.0",
+    "mongoose": "~3.3.1",
+    "waitress": "~0.1.2",
+    "jquery-browserify": "~1.8.1",
+    "browserijade": "~0.5.7",
+    "browserify": "~1.16.3",
+    "walkdir": "0.0.7"
   }
 }

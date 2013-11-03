@@ -1,0 +1,66 @@
+a:hover {
+  color: #000;
+}
+
+a {
+  color: #666;
+}
+
+.result {
+  border-bottom: 1px solid #bbb;
+  padding: 10px 0px;
+  margin: 10px 0px;
+  height: 150px;
+}
+
+
+.result .name {
+  font-weight: bold;
+}
+
+.result img.food-img {
+  width: 120px;
+  height: 120px;
+}
+
+.result img.check {
+  width: 14px;
+}
+
+.image-clip {
+  height: 120px;
+  overflow: hidden;
+}
+
+.result a {
+  height: 80px;
+  display: block;
+}
+
+input#search {
+  width: 400px;
+}
+
+.search-container {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #bbb;
+}
+
+.recipe {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #bbb;
+}
+
+ul li {
+  list-style-type: none;
+}
+
+.recipe li {
+  padding-bottom: 10px;
+}
+
+.description {
+  font-size: 11px;
+}

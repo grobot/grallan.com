@@ -1,4 +1,3 @@
-
 exports.init = function(app) {
   app.get('/',
     index
