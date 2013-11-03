@@ -1,0 +1,2 @@
+run:
+	supervisor app.js
