@@ -20,3 +20,11 @@ img.grobot-footer {
 .navbar li a {
   padding-top: 16px;
 }
+
+.post .content {
+  margin-bottom: 30px;
+}
+.post .date {
+  margin-bottom: 50px;
+  font-weight: 600;
+}

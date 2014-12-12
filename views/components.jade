@@ -19,5 +19,19 @@ mixin header(activeItem)
 
 mixin footer()
   .row.col-md.12.footer
+    hr
     .center
       img.grobot-footer(src='/img/grobot-cookies.png')
+
+mixin pagination()
+  ul.pagination
+    if getPageCount() !== 1
+      - var i = 1;
+      - while ( i <= getPageCount() )
+        if page == i
+          li(class='active')
+            a(href=pageURL(i)) #{i}
+        else
+          li
+            a(href=pageURL(i)) #{i}
+        - i++;

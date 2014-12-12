@@ -1,8 +1,7 @@
 exports.init = function(app) {
   app.get('/', function(req, res) {
     var posts = app.locals.getPosts(0, 5);
-    console.log(posts);
-    res.render('index', {
+    res.render('page', {
       posts: posts
     });
   });
