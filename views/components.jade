@@ -1,11 +1,11 @@
 mixin header(activeItem)
   .row
-    nav.navbar.navbar-default(role='navigation')
+    .navbar.navbar-default(role='navigation')
       .container-fluid
         .navbar-header
           a.navbar-brand(href='/')
             img.grobot(alt='grobot', src='/img/grobot.png')
-            span Greg Allan
+            span.name Greg Allan
         .collapse.navbar-collapse
           ul.nav.navbar-nav
             li(class=activeItem==='blog' ? 'active' : '')
@@ -16,3 +16,8 @@ mixin header(activeItem)
               a(href='/resume') Resume
             li(class=activeItem==='about' ? 'active' : '')
               a(href='/about') About
+
+mixin footer()
+  .row.col-md.12.footer
+    .center
+      img.grobot-footer(src='/img/grobot-cookies.png')
