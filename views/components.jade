@@ -1,0 +1,18 @@
+mixin header(activeItem)
+  .row
+    nav.navbar.navbar-default(role='navigation')
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='/')
+            img.grobot(alt='grobot', src='/img/grobot.png')
+            span Greg Allan
+        .collapse.navbar-collapse
+          ul.nav.navbar-nav
+            li(class=activeItem==='blog' ? 'active' : '')
+              a(href='/') Blog
+            li(class=activeItem==='projects' ? 'active' : '')
+              a(href='/projects') Projects
+            li(class=activeItem==='resume' ? 'active' : '')
+              a(href='/resume') Resume
+            li(class=activeItem==='about' ? 'active' : '')
+              a(href='/about') About

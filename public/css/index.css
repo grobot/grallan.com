@@ -1,11 +1,4 @@
-.nav .grobot {
-  height: 170px;
-  margin-top: 5px;
+img.grobot {
+  height: 20px;
+  padding-right: 10px;
 }
-
-.nav .name {
-  font-size: 36px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-}
-

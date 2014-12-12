@@ -1,18 +1,6 @@
 extends layout
+include ./components
 
 block content
   .container
-    .row
-      .col-md-2.nav
-        img.grobot(src='/img/grobot.png')
-        .name Greg Allan
-        ul.nav.nav-pills.nav-stacked
-          li.active(role='presentation')
-            a(href='/') blog
-          li(role='presentation')
-            a(href='/projects') projects
-          li(role='presentation')
-            a(href='/about') about
-      .col-md-10
-        .content HAI
-
+    +header('blog')
