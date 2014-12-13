@@ -5,14 +5,14 @@ block content
   .container
     +header('blog')
     .row.blog
-      .col-md-3
+      .col-md-3.hidden-xs
         each post, index in posts
           a(href='#' + index)
             h3= post.title
             h6 #{post.date.getMonth()+1}-#{post.date.getDate()}-#{post.date.getFullYear()}
           hr
 
-      .col-md-9
+      .col-md-9.col-xs-9
         each post, index in posts
           .post(id=index)
             .content !{post.content}

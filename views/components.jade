@@ -6,7 +6,12 @@ mixin header(activeItem)
           a.navbar-brand(href='/')
             img.grobot(alt='grobot', src='/img/grobot.png')
             span.name Greg Allan
-        .collapse.navbar-collapse
+          button.navbar-toggle.collapsed(type='button',  data-toggle="collapse",  data-target="#navbar")
+            span.sr-only
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        .collapse.navbar-collapse#navbar
           ul.nav.navbar-nav
             li(class=activeItem==='blog' ? 'active' : '')
               a(href='/') Blog
