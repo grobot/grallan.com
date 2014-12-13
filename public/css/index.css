@@ -28,3 +28,10 @@ img.grobot-footer {
   margin-bottom: 50px;
   font-weight: 600;
 }
+
+.project-description {
+  margin-bottom: 8px;
+}
+.project-technologies ul {
+  margin-top: 8px;
+}
