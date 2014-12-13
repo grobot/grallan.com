@@ -6,15 +6,15 @@ block content
     +header('blog')
     .row.blog
       .col-md-3
-        each post in posts
-          a(href=post.url)
+        each post, index in posts
+          a(href='#' + index)
             h3= post.title
             h6 #{post.date.getMonth()+1}-#{post.date.getDate()}-#{post.date.getFullYear()}
           hr
 
       .col-md-9
-        each post in posts
-          .post
+        each post, index in posts
+          .post(id=index)
             .content !{post.content}
             .date Posted #{post.date.getMonth()+1}-#{post.date.getDate()}-#{post.date.getFullYear()}
         +pagination()
