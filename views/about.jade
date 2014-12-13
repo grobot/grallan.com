@@ -5,9 +5,19 @@ block content
   .container
     +header('about')
     .row.col-md-offset-4
-      div
+      h1 Greg Allan
+      .about
         | Hi, I'm Greg. I live in Seattle. I like running, climbing, cookies and coffee.
         | If you like any of these and you're in or around Seattle shoot me an email (gregory.j.allan@gmail.com) 
         | and we can go meet up and get some.
+      .socialz
+        a(href='http://instagram.com/grobot808')
+          img.social(src='/img/insta.png')
+        a(href='http://twitter.com/grobot')
+          img.social(src='/img/twitter.png')
+        a(href='http://github.com/grobot')
+          img.social(src='/img/github.png')
+        a(href='mailto:gregory.j.allan@gmail.com')
+          img.social(src='/img/email.png')
       img(src='https://i.imgur.com/xIoloh.gif')
     +footer()

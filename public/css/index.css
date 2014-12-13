@@ -35,3 +35,11 @@ img.grobot-footer {
 .project-technologies ul {
   margin-top: 8px;
 }
+
+.social {
+  height: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 25px;
+  margin-right: 25px;
+}
