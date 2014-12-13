@@ -1,6 +1,7 @@
 var express = require('express')
   , Poet    = require('poet')
   , app     = express()
+  , port    = process.env.PORT || 3000
   ;
 
 var poet = Poet(app, {
@@ -23,4 +24,5 @@ app.use(app.router);
   controller.init(app);
 });
 
-app.listen(3000);
+app.listen(port);
+console.log('listening on port ' + port);
